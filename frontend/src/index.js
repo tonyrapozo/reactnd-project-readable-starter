@@ -1,35 +1,34 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore, applyMiddleware, compose } from 'redux'
+import App from './app'
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
+import { postReducer } from './reducer/postReducer';
+import { categoryReducer } from './reducer/categoryReducer';
+import { commentReducer } from './reducer/commentReducer';
+import thunk from 'redux-thunk';
 
-import App from './views/app'
 import registerServiceWorker from './registerServiceWorker'
-import reducer from './reducer'
-import './index.css'
 
-const logger = store => next => action => {
-  console.group(action.type)
-  console.info('dispatching', action)
-  let result = next(action)
-  console.log('next state', store.getState())
-  console.groupEnd(action.type)
-  return result
-}
+import './index.css'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const store = createStore(
-  reducer,
-  composeEnhancers(
-    applyMiddleware(logger)
-  )
+    combineReducers({
+        commentReducer,
+        postReducer,
+        categoryReducer
+    }),
+    composeEnhancers(
+        applyMiddleware(thunk)
+    )
 )
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
 )
 registerServiceWorker()
