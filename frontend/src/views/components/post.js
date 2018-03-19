@@ -1,23 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Vote from './vote';
 
 const Post = (props) => {
     const { post } = props;
     return (
-        <div style={{marginTop:'50px'}}>
-            {post.author}<br/>
-            {post.body}<br/>
-            {post.category}<br/>
-            {post.commentCount}<br/>
-            {post.id}<br/>
-            {post.title}<br/>
-            {post.voteScore}<br/>
-            <Link to={`/posts/${post.id}`} >
-                edit
-            </Link><br/>
-            <Link to={`/posts/${post.id}`} >
-                 remove
-            </Link>
+        <div key={post.id} className="card m-t-15">
+            <div className="card-header">
+                <Link to={`/posts/${post.id}`}>
+                    {post.title}
+                </Link>
+            </div>
+            <div className="card-subtitle">
+                {post.date}: {post.author} - {post.commentCount} comments
+                <Vote voteScore={post.voteScore}/>
+            </div>
         </div>
     );
 };

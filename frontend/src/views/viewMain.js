@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import CategoryList from './components/categoryList';
 import PostList from './components/postList';
+import Header from './components/header';
 
 import { getCategories } from '../store/categoryStore';
 import { getPosts, getPostsbyCategory } from '../store/postStore';
@@ -27,26 +27,15 @@ class ViewMain extends Component {
         this.load(prevCategory, category);
     }
 
-    selectedCategory = (props) => {
-        let category = props.categoryReducer.categories.filter(category => category.path === this.props.match.params.category);
-        if (category.length > 0)
-            return category[0].name;
-        return "all";
-    }
-
     render() {
         const { categories } = this.props.categoryReducer;
         const { posts } = this.props.postReducer;
 
         return (
             <div className="App">
-                <header className="App-header">
-                    <h1 className="App-title">{this.selectedCategory(this.props)}</h1>
-                </header>
-                <CategoryList categories={categories} />
+                <Header props={this.props}/>
+                <CategoryList categories={categories} path={document.location} />
                 <PostList posts={Object.values(posts)} />
-                <br />
-                <Link to="/new">novo</Link>
             </div>
         );
     }

@@ -1,4 +1,5 @@
 import { GET_POST, GET_POSTS, DELETE_POST, UPDATE_POST, INSERT_POST } from '../actions/postActions'
+import * as moment from 'moment';
 
 export const postReducer = (state = { posts: [], post: {}, loading: true }, action) => {
     switch (action.type) {
@@ -6,6 +7,7 @@ export const postReducer = (state = { posts: [], post: {}, loading: true }, acti
         case GET_POSTS:
             const posts = action.posts.reduce((postsAcc, post) => {
                 postsAcc[post.id] = post;
+                postsAcc[post.id].date = moment(postsAcc[post.id].timestamp).format('MM/DD/YYYY');
                 return postsAcc;
             }, {});
             return {

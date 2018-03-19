@@ -2,16 +2,24 @@ import React from 'react';
 import Category from '../components/category'
 
 const CategoryList = (props) => {
-    const { categories } = props;
+    const { categories, path } = props;
     return (
-        <div className="category-list">
-            <Category category={{ path: "../", name: "all" }} />
-            {
-                categories.map(category => {
-                    return <Category key={category.path} category={category} />
-                })
-            }
-        </div>
+        <aside className="left-sidebar">
+                <nav className="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li className={path.pathname === "/" ? "active" : ""}>
+                            <Category category={{ path: "../", name: "all" }} />
+                        </li>
+                        {
+                            categories.map(category => {
+                                return <li key={category.path} className={path.pathname.indexOf(`/${category.path}`) >= 0 ? "active" : ""}>
+                                    <Category category={category} />
+                                </li>
+                            })
+                        }
+                    </ul>
+                </nav>
+        </aside>
     );
 };
 
